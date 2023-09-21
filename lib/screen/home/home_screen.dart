@@ -87,16 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
     if (mounted) {
       setState(() {});
     }
-    // bool result = await InternetConnectionChecker().hasConnection;
-    // if (result == true) {
-    //   setState(() {
-    //     isDeviceConnected = true;
-    //   });
-    // } else {
-    //   isDeviceConnected = false;
-    //   log('No internet :( Reason:');
-    //   log(InternetConnectionChecker().connectionStatus.toString());
-    // }
   }
 
   @override
