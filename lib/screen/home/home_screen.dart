@@ -1,17 +1,15 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:areaphonebook/utils/app_animation.dart';
 import 'package:areaphonebook/utils/mycolors.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = "home_screen";
   const HomeScreen({super.key});
 
   @override
@@ -25,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String url = 'https://areaphonebook.com';
   final GlobalKey webViewKey = GlobalKey();
-
-  bool isLoading = true;
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
@@ -106,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           backgroundColor: isDeviceConnected ? MyColor.primary : Colors.white,
           body: !isDeviceConnected
-              ? Container(
+              ? SizedBox(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: Column(
@@ -153,9 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   shouldOverrideUrlLoading: (controller, navigationAction) async {
                     var uri = navigationAction.request.url!;
-                    log(uri.scheme);
+
                     if (uri.scheme == "tel") {
-                      log("first");
                       if (await canLaunchUrl(Uri.parse(url))) {
                         launchUrl(
                           uri,
@@ -181,28 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       urlFile: Uri.parse("https://code.jquery.com/jquery-1.8.3.min.js"),
                     );
 
-                    await controller.evaluateJavascript(source: "window.localStorage.setItem('popState', 'shown')");
-                    //       await controller.evaluateJavascript(source: "alert(window.localStorage.getItem('popState'))");
-                    var noncase = ''' 
-                \$(document).ready(function() {
-                    if (localStorage.getItem('popState') != 'shown') {
-                        \$("#onetime").delay(100).fadeIn();
-                        localStorage.setItem('popState', 'shown')
-                    }
-
-                    \$('#onetime-close').click(function(e) {
-                        \$('#onetime').fadeOut();
-                    });
-                    \$('#onetime').click(function(e) {
-                        \$('#onetime').fadeOut();
-                    });
-                });
-               ''';
-                    await controller.callAsyncJavaScript(functionBody: noncase).then((value) {
-                      // log(value.toString(), name: "call async");
-                    });
                     setState(() {
-                      isLoading = false;
                       this.url = url.toString();
                     });
                   },

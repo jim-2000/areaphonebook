@@ -1,4 +1,4 @@
-package dev.vleb.areaphonebook
+package com.areaphonebook
 
 import io.flutter.embedding.android.FlutterActivity
 

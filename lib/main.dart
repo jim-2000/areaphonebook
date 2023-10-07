@@ -1,10 +1,10 @@
-import 'package:areaphonebook/utils/app_routes.dart';
+import 'package:areaphonebook/screen/home/home_screen.dart';
+import 'package:areaphonebook/screen/splash/splashScreen.dart';
 import 'package:areaphonebook/utils/mycolors.dart';
 import 'package:areaphonebook/utils/apptext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,14 +25,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: MyString.appName,
-      defaultTransition: Transition.noTransition,
-      transitionDuration: const Duration(milliseconds: 200),
       debugShowCheckedModeBanner: false,
-      navigatorKey: Get.key,
-      initialRoute: RouteHelper.splashScreen,
-      getPages: RouteHelper.routes,
+      // navigatorKey: Get.key,
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+      },
     );
   }
 }
